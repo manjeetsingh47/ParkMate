@@ -1,0 +1,143 @@
+
+/* ==============================
+   PARKING MATE - PREMIUM FOOTER
+================================ */
+
+.footer {
+  position: relative;
+  background: #050505;
+  border-top: 1px solid rgba(212, 175, 55, 0.25);
+  color: #A8A8A8;
+  overflow: hidden;
+}
+
+/* Subtle gold glow */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #D4AF37,
+    transparent
+  );
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.footer-inner {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 65px 32px 45px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 45px;
+}
+
+/* Footer Logo */
+.footer-logo {
+  font-family: "Sora", sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #FFFFFF;
+  margin-bottom: 18px;
+}
+
+.footer-logo span {
+  color: #D4AF37;
+}
+
+/* Footer Description */
+.footer p {
+  margin: 0;
+  max-width: 330px;
+  color: #929292;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+/* Footer Links */
+.footer-cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 75px;
+}
+
+.footer-cols div {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-cols h4 {
+  color: #D4AF37;
+  font-family: "Sora", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.footer-cols a {
+  color: #999999;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-cols a:hover {
+  color: #D4AF37;
+  transform: translateX(4px);
+}
+
+/* Bottom Copyright */
+.footer-copy {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px 32px 28px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: #707070;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-inner {
+    padding: 45px 22px 35px;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .footer-cols {
+    gap: 45px;
+  }
+
+  .footer-copy {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-logo {
+    font-size: 23px;
+  }
+
+  .footer-cols {
+    gap: 30px;
+  }
+
+  .footer-cols div {
+    min-width: 110px;
+  }
+}
