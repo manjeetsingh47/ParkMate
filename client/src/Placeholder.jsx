@@ -7,7 +7,7 @@ export default function Placeholder({ name }) {
       <Logo />
       <h1 className="h1">{name}</h1>
       <p className="muted">You are logged in. Build this page next.</p>
-      <Link to="/login/customer" className="btn btn-yellow">
+      <Link to="/login/customer" className="btn btn-green">
         Back to log in
       </Link>
     </div>

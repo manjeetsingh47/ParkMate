@@ -11,5 +11,14 @@ export async function login({ role, identifier, password }) {
     throw new Error("Incorrect email/mobile or password.");
   }
 
-  return { token: "demo-token", user: { role, identifier } };
+  // Demo name taken from the email ("manjeet.singh@x.com" -> "Manjeet Singh").
+  // Replace with the real name your backend returns.
+  const base = identifier.includes("@") ? identifier.split("@")[0] : "";
+  const name = base
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1))
+    .join(" ");
+
+  return { token: "demo-token", user: { role, identifier, name } };
 }

@@ -106,7 +106,7 @@ const faqs = [
   ],
   [
     "What if the spot is not available when I arrive?",
-    "Contact the Parking Mate support team for assistance."
+    "Contact the ParkMate support team for assistance."
   ],
   [
     "How and when do owners get paid?",
@@ -149,7 +149,7 @@ export default function Home() {
             </h1>
 
             <p>
-              Parking Mate helps you find, book and pay for a
+              ParkMate helps you find, book and pay for a
               parking spot before you leave home. No circling
               the block, no last-minute panic.
             </p>
@@ -196,17 +196,6 @@ export default function Home() {
 
             </div>
 
-            {/* RESERVED CARD */}
-
-            <div className="reservation-card">
-              <span className="reservation-check">✓</span>
-
-              <div>
-                <strong>Spot reserved</strong>
-                <small>Your parking journey starts here</small>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -241,7 +230,7 @@ export default function Home() {
             </p>
 
             <p>
-              Parking Mate connects drivers with parking space
+              ParkMate connects drivers with parking space
               owners. Drivers can discover parking options, while
               owners can list spaces they want to make available.
             </p>
@@ -304,7 +293,7 @@ export default function Home() {
               about access, lighting and security.
             </p>
 
-            <ul className="gold-list">
+            <ul className="tick-list">
               <li>Covered and well-lit parking options</li>
               <li>Parking information and reviews</li>
               <li>Support when you need assistance</li>
@@ -511,11 +500,11 @@ export default function Home() {
             <span className="quote-mark">“</span>
 
             <p>
-              Parking Mate aims to make finding parking
+              ParkMate aims to make finding parking
               simpler and more convenient.
             </p>
 
-            <h4>Parking Mate</h4>
+            <h4>ParkMate</h4>
             <span className="muted">Our vision</span>
           </article>
 
@@ -527,7 +516,7 @@ export default function Home() {
               together in one place.
             </p>
 
-            <h4>Parking Mate</h4>
+            <h4>ParkMate</h4>
             <span className="muted">Our mission</span>
           </article>
 
@@ -570,7 +559,7 @@ export default function Home() {
           </h2>
 
           <p>
-            Join Parking Mate and discover a simpler way
+            Join ParkMate and discover a simpler way
             to find and manage parking.
           </p>
 
