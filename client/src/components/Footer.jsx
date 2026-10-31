@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import Logo from "../Logo.jsx";
 import "./Footer.css";
 
 export default function Footer() {
@@ -10,12 +11,12 @@ export default function Footer() {
         {/* Brand Section */}
         <div className="footer-brand">
           <div className="footer-logo">
-            Parking <span>Mate</span>
+            <Logo tone="light" />
           </div>
 
           <p>
             Your parking, made simple. Find secure parking spaces,
-            book easily and enjoy a stress-free journey with Parking Mate.
+            book easily and enjoy a stress-free journey with ParkMate.
           </p>
         </div>
 
@@ -38,7 +39,7 @@ export default function Footer() {
 
           <div>
             <h4>Account</h4>
-            <Link to="/login/customer">Customer Login</Link>
+            <Link to="/login/customer">User Login</Link>
             <Link to="/login/host">Owner Login</Link>
             <Link to="/login/admin">Admin Login</Link>
           </div>
@@ -48,7 +49,7 @@ export default function Footer() {
 
       {/* Copyright */}
       <div className="footer-copy">
-        © 2026 Parking Mate. All rights reserved.
+        © 2026 ParkMate. All rights reserved.
       </div>
     </footer>
   );

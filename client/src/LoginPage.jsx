@@ -13,6 +13,16 @@ export default function LoginPage({ role }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // name of the user who logged in last on this device (saved below after a successful login)
+  const savedName = (() => {
+    try {
+      return localStorage.getItem("pm_name") || "";
+    } catch {
+      return "";
+    }
+  })();
+  const title = role.showUserName && savedName ? `Welcome, ${savedName}` : role.title;
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -22,6 +32,13 @@ export default function LoginPage({ role }) {
       const store = remember ? localStorage : sessionStorage;
       store.setItem("pm_token", data.token);
       store.setItem("pm_role", role.path);
+      if (data.user?.name) {
+        try {
+          localStorage.setItem("pm_name", data.user.name); // kept after log out so the next login says "Welcome, Name"
+        } catch {
+          /* ignore */
+        }
+      }
       navigate(role.redirect);
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
@@ -41,13 +58,13 @@ export default function LoginPage({ role }) {
 
       <main className="split">
         {/* Left: brand panel */}
-        <section className="panel">
+        <section className="login-brand">
           <span className="pill">{role.eyebrow}</span>
           <h1 className="h1">
-            Park without <span className="yellow">the stress.</span>
+            Park without <span className="hl">the stress.</span>
           </h1>
           <p className="lead">
-            Parking Mate helps drivers find, book and pay for a safe spot, and helps owners earn
+            ParkMate helps drivers find, book and pay for a safe spot, and helps owners earn
             from space they already have.
           </p>
           <ul className="checks">
@@ -74,7 +91,7 @@ export default function LoginPage({ role }) {
             ))}
           </div>
 
-          <h2 className="h2">{role.title}</h2>
+          <h2 className="h2">{title}</h2>
           <p className="muted">{role.subtitle}</p>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -134,7 +151,7 @@ export default function LoginPage({ role }) {
               </div>
             )}
 
-            <button type="submit" className="btn btn-yellow btn-block" disabled={loading}>
+            <button type="submit" className="btn btn-green btn-block" disabled={loading}>
               {loading ? "Logging in…" : role.button}
             </button>
           </form>
@@ -152,7 +169,7 @@ export default function LoginPage({ role }) {
         </section>
       </main>
 
-      <footer className="foot">© 2026 Parking Mate. All rights reserved.</footer>
+      <footer className="foot">© 2026 ParkMate. All rights reserved.</footer>
     </div>
   );
 }

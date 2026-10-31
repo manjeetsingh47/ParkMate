@@ -1,5 +1,6 @@
 
 import { Link, NavLink } from "react-router-dom";
+import Logo from "../Logo.jsx";
 import "./Navbar.css";
 
 const links = [
@@ -15,29 +16,7 @@ export default function Navbar() {
     <header className="nav">
       <div className="nav-inner">
 
-        {/* Parking Mate Logo */}
-        <Link to="/" className="logo">
-          <svg
-            viewBox="0 0 40 40"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              width="40"
-              height="40"
-              rx="11"
-              fill="#D4AF37"
-            />
-            <path
-              d="M13 31V9H22C28 9 31 12 31 18C31 24 27 27 21 27H18V31H13ZM18 22H21C24 22 26 21 26 18C26 15 24 14 21 14H18V22Z"
-              fill="#080808"
-            />
-          </svg>
-
-          <span>
-            Parking <span>Mate</span>
-          </span>
-        </Link>
+        <Logo tone="light" />
 
         {/* Navigation Links */}
         <nav className="nav-links">
@@ -60,8 +39,8 @@ export default function Navbar() {
             Login
           </Link>
 
-          <Link to="/find-parking" className="nav-btn">
-            Book Parking
+          <Link to="/login/customer" className="nav-btn">
+            Sign up
           </Link>
         </div>
 

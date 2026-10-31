@@ -1,17 +1,15 @@
-
 /* ==============================
-   PARKING MATE - PREMIUM FOOTER
+   PARKMATE FOOTER (deep navy)
 ================================ */
 
 .footer {
   position: relative;
-  background: #050505;
-  border-top: 1px solid rgba(212, 175, 55, 0.25);
-  color: #A8A8A8;
+  background: #071230;
+  color: #9fb0d6;
   overflow: hidden;
 }
 
-/* Subtle gold glow */
+/* thin green glow line on top */
 .footer::before {
   content: "";
   position: absolute;
@@ -20,21 +18,15 @@
   transform: translateX(-50%);
   width: 60%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #D4AF37,
-    transparent
-  );
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  box-shadow: 0 0 20px rgba(46, 224, 127, 0.45);
 }
 
 .footer-inner {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 65px 32px 45px;
-
+  padding: 60px 32px 42px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -42,30 +34,21 @@
   gap: 45px;
 }
 
-/* Footer Logo */
 .footer-logo {
-  font-family: "Sora", sans-serif;
-  font-size: 27px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #FFFFFF;
   margin-bottom: 18px;
 }
-
-.footer-logo span {
-  color: #D4AF37;
+.footer-logo .pm-logo-text {
+  font-size: 27px;
 }
 
-/* Footer Description */
 .footer p {
   margin: 0;
   max-width: 330px;
-  color: #929292;
+  color: #8fa0c8;
   font-size: 14px;
   line-height: 1.9;
 }
 
-/* Footer Links */
 .footer-cols {
   display: flex;
   flex-wrap: wrap;
@@ -79,39 +62,34 @@
 }
 
 .footer-cols h4 {
-  color: #D4AF37;
-  font-family: "Sora", sans-serif;
+  color: var(--lime);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0 0 8px;
 }
 
 .footer-cols a {
-  color: #999999;
+  color: #9fb0d6;
   font-size: 14px;
-  text-decoration: none;
-  transition: color 0.3s ease, transform 0.3s ease;
+  font-weight: 500;
+  transition: color 0.25s ease, transform 0.25s ease;
 }
 
 .footer-cols a:hover {
-  color: #D4AF37;
+  color: #fff;
   transform: translateX(4px);
 }
 
-/* Bottom Copyright */
 .footer-copy {
   max-width: 1200px;
   margin: 0 auto;
   padding: 22px 32px 28px;
-
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-  color: #707070;
+  color: #6f82ad;
   font-size: 13px;
   text-align: center;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .footer-inner {
     padding: 45px 22px 35px;
@@ -129,10 +107,6 @@
 }
 
 @media (max-width: 480px) {
-  .footer-logo {
-    font-size: 23px;
-  }
-
   .footer-cols {
     gap: 30px;
   }

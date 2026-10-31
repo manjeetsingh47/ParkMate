@@ -1,6 +1,5 @@
-
 /* ==============================
-   PARKING MATE - PREMIUM NAVBAR
+   PARKMATE NAVBAR (navy bar)
 ================================ */
 
 .nav {
@@ -8,47 +7,23 @@
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(10, 23, 54, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .nav-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 18px 32px;
-
+  padding: 14px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 25px;
 }
 
-/* Logo */
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  flex-shrink: 0;
-
-  color: #ffffff;
-  font-family: "Sora", sans-serif;
-  font-size: 23px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.logo svg {
-  width: 34px;
-  height: 34px;
-}
-
-.logo span {
-  color: #D4AF37;
-}
-
-/* Navigation Links */
+/* Navigation links */
 .nav-links {
   display: flex;
   align-items: center;
@@ -58,13 +33,10 @@
 .nav-links a {
   position: relative;
   padding: 8px 0;
-
-  color: #B5B5B5;
+  color: #b9c6e6;
   font-size: 14px;
-  font-weight: 500;
-  text-decoration: none;
-
-  transition: color 0.3s ease;
+  font-weight: 600;
+  transition: color 0.25s ease;
 }
 
 .nav-links a::after {
@@ -72,16 +44,16 @@
   position: absolute;
   left: 0;
   bottom: 0;
-
   width: 0;
   height: 2px;
-  background: #D4AF37;
+  border-radius: 2px;
+  background: var(--lime);
   transition: width 0.3s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: #D4AF37;
+  color: #fff;
 }
 
 .nav-links a:hover::after,
@@ -89,7 +61,7 @@
   width: 100%;
 }
 
-/* Right Side Buttons */
+/* Right side */
 .nav-right {
   display: flex;
   align-items: center;
@@ -98,46 +70,41 @@
 }
 
 .nav-right a {
-  color: #E5E5E5;
+  color: #e6ecfb;
   font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.3s ease;
+  font-weight: 700;
+  transition: color 0.25s ease;
 }
 
 .nav-right a:hover {
-  color: #D4AF37;
+  color: var(--lime);
 }
 
-/* Gold Book Parking Button */
+/* Green "Book Parking" button */
 .nav-right .nav-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  padding: 12px 21px;
-  border-radius: 9px;
-
-  background: linear-gradient(135deg, #F5D77A, #D4AF37);
-  color: #080808;
-
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: var(--green);
+  color: #fff;
   font-size: 14px;
-  font-weight: 800;
-
-  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.12);
-  transition: all 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(11, 138, 74, 0.4);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .nav-right .nav-btn:hover {
-  color: #000000;
+  color: #fff;
+  background: var(--green-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
 }
 
-/* Responsive Navbar */
+/* Responsive */
 @media (max-width: 900px) {
   .nav-inner {
-    padding: 16px 22px;
+    padding: 14px 22px;
     flex-wrap: wrap;
   }
 
@@ -152,17 +119,12 @@
 
 @media (max-width: 600px) {
   .nav-inner {
-    padding: 14px 16px;
-    gap: 15px;
+    padding: 12px 16px;
+    gap: 12px;
   }
 
-  .logo {
+  .pm-logo-text {
     font-size: 20px;
-  }
-
-  .logo svg {
-    width: 29px;
-    height: 29px;
   }
 
   .nav-right {
@@ -170,43 +132,19 @@
   }
 
   .nav-right a {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
   .nav-right .nav-btn {
-    padding: 10px 13px;
-    font-size: 12px;
+    padding: 10px 14px;
+    font-size: 12.5px;
   }
 
   .nav-links {
-    gap: 17px;
+    gap: 16px;
   }
 
   .nav-links a {
-    font-size: 12px;
+    font-size: 12.5px;
   }
 }
-
-/* =====================================
-   CINEMATIC STICKY NAVBAR EFFECTS
-===================================== */
-
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  background: rgba(10, 11, 13, 0.72);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 210, 31, 0.12);
-}
-
-.nav-links a {
-  transition: color 0.25s ease, border-color 0.25s ease;
-}
-
-.nav-links a:hover {
-  color: #fff;
-  border-bottom-color: rgba(255, 210, 31, 0.6);
-}
-
