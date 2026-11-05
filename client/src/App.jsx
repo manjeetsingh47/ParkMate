@@ -1,4 +1,3 @@
-
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./LoginPage.jsx";
@@ -9,27 +8,21 @@ import Home from "./pages/Home.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
-feature/manjeet-frontend
-// Customer dashboard
-=======
-// Signup page (customer + parking owner)
 import Signup from "./auth/signup.jsx";
 
-// Customer dashboard (new)
- dev
 import DashboardLayout from "./dashboard/DashboardLayout.jsx";
 import CustomerHome from "./dashboard/pages/Home.jsx";
 import FindParking from "./dashboard/pages/FindParking.jsx";
 import MyBookings from "./dashboard/pages/MyBookings.jsx";
 import Payments from "./dashboard/pages/Payments.jsx";
 import Profile from "./dashboard/pages/Profile.jsx";
+
 import BookLayout, {
   BookDetails,
   BookSlot,
   BookTicket,
 } from "./dashboard/pages/Book.jsx";
 
-// Owner dashboard
 import OwnerDashboard from "./owner/OwnerDashboard.jsx";
 
 export default function App() {
@@ -47,7 +40,7 @@ export default function App() {
         }
       />
 
-      {/* Login Pages */}
+      {/* Login */}
       <Route
         path="/login"
         element={<Navigate to="/login/customer" replace />}
@@ -63,21 +56,28 @@ export default function App() {
         element={<LoginPage role={ROLES.host} />}
       />
 
- feature/manjeet-frontend
       <Route
         path="/login/admin"
         element={<LoginPage role={ROLES.admin} />}
       />
 
+      {/* Signup */}
+      <Route
+        path="/signup"
+        element={<Navigate to="/signup/customer" replace />}
+      />
+
+      <Route
+        path="/signup/customer"
+        element={<Signup initialRole="user" />}
+      />
+
+      <Route
+        path="/signup/host"
+        element={<Signup initialRole="owner" />}
+      />
+
       {/* Customer Dashboard */}
-
-      {/* Signup Pages */}
-      <Route path="/signup" element={<Navigate to="/signup/customer" replace />} />
-      <Route path="/signup/customer" element={<Signup initialRole="user" />} />
-      <Route path="/signup/host" element={<Signup initialRole="owner" />} />
-
-      {/* Customer dashboard */}
- dev
       <Route path="/customer" element={<DashboardLayout />}>
         <Route
           index
