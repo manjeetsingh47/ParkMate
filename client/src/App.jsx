@@ -8,6 +8,9 @@ import Home from "./pages/Home.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 
+// Signup page (customer + parking owner)
+import Signup from "./auth/signup.jsx";
+
 // Customer dashboard (new)
 import DashboardLayout from "./dashboard/DashboardLayout.jsx";
 import CustomerHome from "./dashboard/pages/Home.jsx";
@@ -37,6 +40,11 @@ export default function App() {
       <Route path="/login/customer" element={<LoginPage role={ROLES.customer} />} />
       <Route path="/login/host" element={<LoginPage role={ROLES.host} />} />
       <Route path="/login/admin" element={<LoginPage role={ROLES.admin} />} />
+
+      {/* Signup Pages */}
+      <Route path="/signup" element={<Navigate to="/signup/customer" replace />} />
+      <Route path="/signup/customer" element={<Signup initialRole="user" />} />
+      <Route path="/signup/host" element={<Signup initialRole="owner" />} />
 
       {/* Customer dashboard */}
       <Route path="/customer" element={<DashboardLayout />}>

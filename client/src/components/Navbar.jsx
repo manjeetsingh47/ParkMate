@@ -1,4 +1,3 @@
-
 import { Link, NavLink } from "react-router-dom";
 import Logo from "../Logo.jsx";
 import "./Navbar.css";
@@ -35,11 +34,11 @@ export default function Navbar() {
 
         {/* Right Side Buttons */}
         <div className="nav-right">
-          <Link to="/login/customer">
+          <Link to="/login/customer" className="nav-btn">
             Login
           </Link>
 
-          <Link to="/login/customer" className="nav-btn">
+          <Link to="/signup/customer" className="nav-btn">
             Sign up
           </Link>
         </div>

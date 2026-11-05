@@ -148,3 +148,18 @@
     font-size: 12.5px;
   }
 }
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 26px;
+  border-radius: 18px;
+  background: #138a4c;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(19, 138, 76, .35);
+  transition: transform .15s, background .15s;
+}
+.nav-btn:hover { background: #0f7a42; transform: translateY(-1px); }
