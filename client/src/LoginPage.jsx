@@ -4,6 +4,7 @@ import Logo from "./Logo.jsx";
 import { ROLE_LIST } from "./roles.js";
 import { login } from "./api.js";
 
+
 export default function LoginPage({ role }) {
   const navigate = useNavigate();
   const [identifier, setIdentifier] = useState("");
@@ -159,9 +160,9 @@ export default function LoginPage({ role }) {
           {role.showSignup && (
             <p className="signup">
               {role.signupText}{" "}
-              <a href="#" className="link" onClick={(e) => e.preventDefault()}>
+              <Link to={`/signup/${role.path}`} className="link">
                 {role.signupLabel}
-              </a>
+              </Link>
             </p>
           )}
 
