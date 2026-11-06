@@ -1,20 +1,22 @@
+
 /* ==========================================
-   PARKMATE - LANDING PAGE (navy + green)
-   Same class names as before, new colours.
+   PARKMATE - LANDING PAGE
+   Navy + Green Theme
+   Primary Green: #0B8A4A
 ========================================== */
 
 .home {
-  --green: #0b8a4a;
-  --green-dark: #08733c;
-  --lime: #2ee07f;
-  --navy: #0a1736;
-  --navy-2: #0c2250;
-  --mint: #e4f6ec;
-  --bg: #f1f4fc;
-  --card: #ffffff;
-  --ink: #0d1a36;
-  --muted: #5d6b88;
-  --border: #e3e8f4;
+  --green: #0B8A4A;
+  --green-dark: #0B8A4A;
+  --lime: #0B8A4A;
+  --navy: #0A1736;
+  --navy-2: #0C2250;
+  --mint: #E4F6EC;
+  --bg: #F1F4FC;
+  --card: #FFFFFF;
+  --ink: #0D1A36;
+  --muted: #5D6B88;
+  --border: #E3E8F4;
   --shadow: 0 10px 30px rgba(24, 48, 110, 0.08);
   --shadow-h: 0 18px 40px rgba(24, 48, 110, 0.16);
 
@@ -51,7 +53,7 @@
 }
 
 .home .band {
-  background: #fff;
+  background: #FFFFFF;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -105,27 +107,28 @@
 }
 
 .home .btn-primary {
-  background: var(--green);
-  color: #fff;
-  border: 1px solid var(--green);
+  background: #0B8A4A;
+  color: #FFFFFF;
+  border: 1px solid #0B8A4A;
   box-shadow: 0 8px 18px rgba(11, 138, 74, 0.3);
 }
 
 .home .btn-primary:hover {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
+  background: #0B8A4A;
+  border-color: #0B8A4A;
+  color: #FFFFFF;
   transform: translateY(-3px);
   box-shadow: 0 12px 26px rgba(11, 138, 74, 0.38);
 }
 
 .home .btn-secondary {
   color: var(--navy);
-  border: 1.5px solid #c5cfe6;
-  background: #fff;
+  border: 1.5px solid #C5CFE6;
+  background: #FFFFFF;
 }
 
 .home .btn-secondary:hover {
-  color: var(--green-dark);
+  color: var(--green);
   border-color: var(--green);
   background: var(--mint);
   transform: translateY(-3px);
@@ -140,7 +143,12 @@
   left: -100%;
   width: 55%;
   height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
   transform: skewX(-20deg);
 }
 
@@ -150,20 +158,34 @@
 }
 
 /* ==========================================
-   HERO SECTION  (dark garage banner)
+   HERO SECTION
 ========================================== */
 
 .home .hero {
   position: relative;
   padding: 75px 0 95px;
-  color: #fff;
+  color: #FFFFFF;
   background:
-    radial-gradient(700px 420px at 85% 20%, rgba(46, 224, 127, 0.16), transparent 62%),
-    radial-gradient(600px 400px at 0% 100%, rgba(60, 107, 255, 0.2), transparent 60%),
-    linear-gradient(180deg, #060e24 0%, #0a1736 55%, #0c2250 100%);
+    radial-gradient(
+      700px 420px at 85% 20%,
+      rgba(11, 138, 74, 0.16),
+      transparent 62%
+    ),
+    radial-gradient(
+      600px 400px at 0% 100%,
+      rgba(60, 107, 255, 0.2),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      #060E24 0%,
+      #0A1736 55%,
+      #0C2250 100%
+    );
 }
 
-/* hazard stripe along the bottom of the hero */
+/* Hazard stripe */
+
 .home .hero::after {
   content: "";
   position: absolute;
@@ -171,7 +193,11 @@
   right: 0;
   bottom: 0;
   height: 10px;
-  background: repeating-linear-gradient(135deg, #f2c230 0 14px, #10192e 14px 28px);
+  background: repeating-linear-gradient(
+    135deg,
+    #F2C230 0 14px,
+    #10192E 14px 28px
+  );
   opacity: 0.9;
 }
 
@@ -190,9 +216,9 @@
   display: inline-block;
   padding: 9px 15px;
   border-radius: 30px;
-  background: rgba(46, 224, 127, 0.12);
-  border: 1px solid rgba(46, 224, 127, 0.38);
-  color: var(--lime);
+  background: rgba(11, 138, 74, 0.12);
+  border: 1px solid rgba(11, 138, 74, 0.38);
+  color: #FFFFFF;
   font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 1.2px;
@@ -206,10 +232,10 @@
   line-height: 1.07;
   letter-spacing: -2px;
   margin: 25px 0 20px;
-  color: #fff;
+  color: #FFFFFF;
 }
 
-/* Word-by-word animation */
+/* Word animation */
 
 .home .word {
   display: inline-block;
@@ -220,7 +246,7 @@
 }
 
 .home .hero .word.accent {
-  background: linear-gradient(90deg, #26e07b, #5be8a9);
+  background: linear-gradient(90deg, #0B8A4A, #0B8A4A);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -236,10 +262,10 @@
 .home .hero-content > p {
   max-width: 540px;
   font-size: 16.5px;
-  color: #c9d5f2;
+  color: #C9D5F2;
 }
 
-/* Hero search (white pill, like the app's search bar) */
+/* Hero search */
 
 .home .hero-search {
   display: flex;
@@ -249,7 +275,7 @@
   max-width: 570px;
   padding: 10px 10px 10px 12px;
   margin-top: 30px;
-  background: #fff;
+  background: #FFFFFF;
   border-radius: 18px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
 }
@@ -281,7 +307,7 @@
   flex-wrap: wrap;
   gap: 18px;
   margin-top: 22px;
-  color: #c9d5f2;
+  color: #C9D5F2;
   font-size: 12.5px;
   font-weight: 600;
 }
@@ -308,7 +334,9 @@
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  transform: rotateY(calc(var(--mx) * 8deg)) rotateX(calc(var(--my) * -8deg));
+  transform:
+    rotateY(calc(var(--mx) * 8deg))
+    rotateX(calc(var(--my) * -8deg));
   transition: transform 0.25s ease-out;
   transform-style: preserve-3d;
 }
@@ -357,8 +385,7 @@
 }
 
 @keyframes float {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0);
   }
   50% {
@@ -416,7 +443,7 @@
 .home .feature-card {
   padding: 26px;
   background: var(--card);
-  border: 1px solid #edf0f9;
+  border: 1px solid #EDF0F9;
   border-radius: 20px;
   box-shadow: var(--shadow);
   transition: 0.35s ease;
@@ -501,7 +528,7 @@
 
 .home .step-number {
   display: inline-block;
-  background: linear-gradient(90deg, #0b8a4a, #2ee07f);
+  background: linear-gradient(90deg, #0B8A4A, #0B8A4A);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -534,7 +561,7 @@
   padding: 36px;
   border-radius: 24px;
   background: var(--card);
-  border: 1px solid #edf0f9;
+  border: 1px solid #EDF0F9;
   box-shadow: var(--shadow);
   transition: 0.35s ease;
 }
@@ -554,35 +581,36 @@
   margin: 20px 0 25px;
 }
 
-/* owner card = navy, like the app sidebar */
+/* Owner card */
+
 .home .owner-card {
-  background: linear-gradient(160deg, #0a1736, #0c2250);
+  background: linear-gradient(160deg, #0A1736, #0C2250);
   border-color: var(--navy);
 }
 
 .home .owner-card h2 {
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .home .owner-card ul {
-  color: #dbe4fb;
+  color: #DBE4FB;
 }
 
 .home .owner-card .section-label {
-  color: var(--lime);
-  background: rgba(46, 224, 127, 0.14);
+  color: #FFFFFF;
+  background: rgba(11, 138, 74, 0.2);
 }
 
 .home .owner-card .btn-secondary {
-  color: #fff;
+  color: #FFFFFF;
   background: transparent;
   border-color: rgba(255, 255, 255, 0.4);
 }
 
 .home .owner-card .btn-secondary:hover {
-  color: var(--navy);
-  background: var(--lime);
-  border-color: var(--lime);
+  color: #FFFFFF;
+  background: var(--green);
+  border-color: var(--green);
 }
 
 /* ==========================================
@@ -632,7 +660,7 @@
 .home .price-card {
   padding: 32px;
   background: var(--card);
-  border: 1px solid #edf0f9;
+  border: 1px solid #EDF0F9;
   border-radius: 22px;
   box-shadow: var(--shadow);
   transition: 0.35s ease;
@@ -644,7 +672,7 @@
 }
 
 .home .price-card.highlighted {
-  background: linear-gradient(160deg, #0a1736, #0c2250);
+  background: linear-gradient(160deg, #0A1736, #0C2250);
   border-color: var(--navy);
 }
 
@@ -656,7 +684,7 @@
 }
 
 .home .price-card.highlighted h3 {
-  color: var(--lime);
+  color: #FFFFFF;
 }
 
 .home .price {
@@ -668,7 +696,7 @@
 }
 
 .home .price-card.highlighted .price {
-  color: #fff;
+  color: #FFFFFF;
 }
 
 .home .price-card p {
@@ -677,19 +705,19 @@
 }
 
 .home .price-card.highlighted p {
-  color: #c9d5f2;
+  color: #C9D5F2;
 }
 
 .home .price-card.highlighted .btn-secondary {
-  color: #fff;
+  color: #FFFFFF;
   background: transparent;
   border-color: rgba(255, 255, 255, 0.4);
 }
 
 .home .price-card.highlighted .btn-secondary:hover {
-  color: var(--navy);
-  background: var(--lime);
-  border-color: var(--lime);
+  color: #FFFFFF;
+  background: var(--green);
+  border-color: var(--green);
 }
 
 /* ==========================================
@@ -731,7 +759,7 @@
 }
 
 .home .review-card h4 {
-  color: var(--green-dark);
+  color: var(--green);
   margin: 0 0 4px;
 }
 
@@ -752,8 +780,8 @@
 .home .faq-item {
   padding: 20px 24px;
   margin-bottom: 12px;
-  background: #fff;
-  border: 1px solid #edf0f9;
+  background: #FFFFFF;
+  border: 1px solid #EDF0F9;
   border-radius: 16px;
   box-shadow: var(--shadow);
   transition: border-color 0.3s ease;
@@ -773,7 +801,7 @@
 }
 
 .home .faq-item summary:hover {
-  color: var(--green-dark);
+  color: var(--green);
 }
 
 .home .faq-item summary::marker {
@@ -792,9 +820,13 @@
 .home .cta {
   position: relative;
   padding: 90px 0;
-  color: #fff;
+  color: #FFFFFF;
   background:
-    linear-gradient(90deg, rgba(6, 14, 36, 0.95), rgba(10, 23, 54, 0.72)),
+    linear-gradient(
+      90deg,
+      rgba(6, 14, 36, 0.95),
+      rgba(10, 23, 54, 0.72)
+    ),
     url("/images/banner-black-car.jpg") center 55% / cover no-repeat;
 }
 
@@ -805,7 +837,11 @@
   right: 0;
   top: 0;
   height: 10px;
-  background: repeating-linear-gradient(135deg, #f2c230 0 14px, #10192e 14px 28px);
+  background: repeating-linear-gradient(
+    135deg,
+    #F2C230 0 14px,
+    #10192E 14px 28px
+  );
   opacity: 0.9;
 }
 
@@ -815,18 +851,18 @@
 
 .home .cta h2 {
   max-width: 600px;
-  color: #fff;
+  color: #FFFFFF;
   font-size: clamp(35px, 5vw, 55px);
   line-height: 1.12;
 }
 
 .home .cta h2 .accent {
-  color: var(--lime);
+  color: var(--green);
 }
 
 .home .cta p {
   max-width: 540px;
-  color: #c9d5f2;
+  color: #C9D5F2;
 }
 
 .home .cta-actions {
@@ -837,15 +873,15 @@
 }
 
 .home .cta .btn-secondary {
-  color: #fff;
+  color: #FFFFFF;
   background: transparent;
   border-color: rgba(255, 255, 255, 0.45);
 }
 
 .home .cta .btn-secondary:hover {
-  color: var(--navy);
-  background: var(--lime);
-  border-color: var(--lime);
+  color: #FFFFFF;
+  background: var(--green);
+  border-color: var(--green);
 }
 
 /* ==========================================
@@ -913,7 +949,7 @@
   }
 }
 
-/* Scroll reveal - used with useReveal() */
+/* Scroll reveal */
 
 .home .reveal {
   opacity: 0;
