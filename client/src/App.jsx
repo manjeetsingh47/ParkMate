@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./LoginPage.jsx";
-import Placeholder from "./Placeholder.jsx";
 import { ROLES } from "./roles.js";
 
 import Home from "./pages/Home.jsx";
@@ -10,6 +9,7 @@ import Footer from "./components/Footer.jsx";
 
 import Signup from "./auth/signup.jsx";
 
+// Customer Dashboard
 import DashboardLayout from "./dashboard/DashboardLayout.jsx";
 import CustomerHome from "./dashboard/pages/Home.jsx";
 import FindParking from "./dashboard/pages/FindParking.jsx";
@@ -23,7 +23,11 @@ import BookLayout, {
   BookTicket,
 } from "./dashboard/pages/Book.jsx";
 
+// Owner Dashboard
 import OwnerDashboard from "./owner/OwnerDashboard.jsx";
+
+// Admin Dashboard
+import AdminDashboard from "./admin/AdminDashboard.jsx";
 
 export default function App() {
   return (
@@ -40,7 +44,7 @@ export default function App() {
         }
       />
 
-      {/* Login */}
+      {/* Login Pages */}
       <Route
         path="/login"
         element={<Navigate to="/login/customer" replace />}
@@ -61,7 +65,7 @@ export default function App() {
         element={<LoginPage role={ROLES.admin} />}
       />
 
-      {/* Signup */}
+      {/* Signup Pages */}
       <Route
         path="/signup"
         element={<Navigate to="/signup/customer" replace />}
@@ -107,7 +111,7 @@ export default function App() {
       {/* Admin Dashboard */}
       <Route
         path="/admin/dashboard"
-        element={<Placeholder name="Admin dashboard" />}
+        element={<AdminDashboard />}
       />
 
       {/* Unknown Routes */}

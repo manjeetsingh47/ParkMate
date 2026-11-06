@@ -1,27 +1,50 @@
-/* ==========================================================
-   PARKMATE THEME  -  navy + green on a soft blue-white canvas
-   Global tokens, login page and small shared pieces.
-   (Landing page: pages/Home.css   Dashboard: dashboard/dashboard.css)
-========================================================== */
+/* =====================================================
+   PARKMATE - GLOBAL THEME
+   Consistent Navy + Emerald Green Design System
+===================================================== */
+
 :root {
-  --navy: #0a1736;
-  --navy-2: #0c2250;
-  --green: #0b8a4a;
-  --green-dark: #08733c;
-  --lime: #2ee07f;
-  --mint: #e4f6ec;
-  --bg: #f1f4fc;
-  --card: #ffffff;
-  --tint: #e8eefc;
-  --border: #e3e8f4;
-  --text: #0d1a36;
-  --muted: #5d6b88;
-  --danger: #d93f3f;
-  --radius: 16px;
+  /* Brand colours */
+  --navy: #0A1736;
+  --navy-2: #0C2250;
+
+  --green: #0B8A4A;
+  --green-dark: #0B8A4A;
+  --lime: #0B8A4A;
+
+  /* Backgrounds */
+  --bg: #F1F4FC;
+  --card: #FFFFFF;
+  --mint: #E4F6EC;
+  --tint: #E8EEFC;
+  --input-bg: #F7F9FE;
+
+  /* Text */
+  --text: #0D1A36;
+  --muted: #5D6B88;
+  --placeholder: #9AA6C0;
+
+  /* Borders and status */
+  --border: #E3E8F4;
+  --danger: #D93F3F;
+  --warning: #D99024;
+  --info: #367BD8;
+
+  /* UI */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
   --shadow: 0 10px 30px rgba(24, 48, 110, 0.07);
   --shadow-s: 0 4px 16px rgba(24, 48, 110, 0.09);
+
   --font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
 }
+
+/* =====================================================
+   GLOBAL RESET
+===================================================== */
 
 * {
   box-sizing: border-box;
@@ -32,6 +55,7 @@ body,
 #root {
   margin: 0;
   min-height: 100%;
+  width: 100%;
 }
 
 body {
@@ -42,10 +66,13 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font);
   letter-spacing: -0.02em;
-  margin: 0;
 }
 
 a {
@@ -55,8 +82,17 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
 }
 
 :focus-visible {
@@ -64,17 +100,22 @@ select {
   outline-offset: 2px;
 }
 
-/* ---------- logo ---------- */
+/* =====================================================
+   SHARED LOGO
+===================================================== */
+
 .pm-logo {
   display: inline-flex;
   align-items: center;
   gap: 9px;
   flex-shrink: 0;
 }
+
 .pm-logo svg {
   width: 32px;
   height: 35px;
 }
+
 .pm-logo-text {
   font-size: 24px;
   font-weight: 800;
@@ -82,24 +123,34 @@ select {
   line-height: 1;
   color: var(--navy);
 }
+
 .pm-logo-text b {
   color: var(--green);
   font-weight: 800;
 }
+
 .pm-logo-light .pm-logo-text {
-  color: #fff;
-}
-.pm-logo-light .pm-logo-text b {
-  color: var(--lime);
+  color: #FFFFFF;
 }
 
-/* ---------- login layout ---------- */
+.pm-logo-light .pm-logo-text b {
+  color: var(--green);
+}
+
+/* =====================================================
+   LOGIN AND AUTHENTICATION LAYOUT
+===================================================== */
+
 .page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background:
-    radial-gradient(900px 500px at 90% 0%, rgba(46, 224, 127, 0.1), transparent 60%),
+    radial-gradient(
+      900px 500px at 90% 0%,
+      rgba(11, 138, 74, 0.08),
+      transparent 60%
+    ),
     var(--bg);
 }
 
@@ -108,7 +159,7 @@ select {
   align-items: center;
   justify-content: space-between;
   padding: 16px 32px;
-  background: #fff;
+  background: var(--card);
   border-bottom: 1px solid var(--border);
 }
 
@@ -117,8 +168,9 @@ select {
   font-size: 14px;
   font-weight: 600;
 }
+
 .topbar-link:hover {
-  color: var(--green-dark);
+  color: var(--green);
 }
 
 .split {
@@ -139,10 +191,13 @@ select {
   font-size: 13px;
   padding: 22px;
   border-top: 1px solid var(--border);
-  background: #fff;
+  background: var(--card);
 }
 
-/* ---------- left brand panel (navy, with the garage photo) ---------- */
+/* =====================================================
+   LOGIN BRAND PANEL
+===================================================== */
+
 .login-brand {
   position: relative;
   overflow: hidden;
@@ -151,21 +206,29 @@ select {
   justify-content: center;
   padding: 48px 44px;
   border-radius: 24px;
-  color: #fff;
+  color: #FFFFFF;
   background:
-    linear-gradient(160deg, rgba(10, 23, 54, 0.94) 25%, rgba(10, 23, 54, 0.62) 100%),
+    linear-gradient(
+      160deg,
+      rgba(10, 23, 54, 0.94) 25%,
+      rgba(10, 23, 54, 0.62) 100%
+    ),
     url("/images/carpark-night.jpg") center / cover no-repeat;
   box-shadow: 0 18px 40px rgba(10, 23, 54, 0.28);
 }
+
 .login-brand::after {
-  /* parking-bay hazard stripe along the bottom edge */
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: 8px;
-  background: repeating-linear-gradient(135deg, #f2c230 0 10px, #10192e 10px 20px);
+  background: repeating-linear-gradient(
+    135deg,
+    #F2C230 0 10px,
+    #10192E 10px 20px
+  );
   opacity: 0.85;
 }
 
@@ -175,9 +238,9 @@ select {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--lime);
-  background: rgba(46, 224, 127, 0.12);
-  border: 1px solid rgba(46, 224, 127, 0.35);
+  color: var(--green);
+  background: rgba(11, 138, 74, 0.12);
+  border: 1px solid rgba(11, 138, 74, 0.35);
   padding: 7px 14px;
   border-radius: 999px;
   margin-bottom: 20px;
@@ -188,14 +251,13 @@ select {
   line-height: 1.06;
   font-weight: 800;
 }
+
 .hl {
-  background: linear-gradient(90deg, #26e07b, #5be8a9);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--green);
 }
+
 .lead {
-  color: #c9d5f2;
+  color: #C9D5F2;
   font-size: 17px;
   line-height: 1.7;
   max-width: 480px;
@@ -209,6 +271,7 @@ select {
   display: grid;
   gap: 12px;
 }
+
 .checks li {
   display: flex;
   align-items: center;
@@ -216,23 +279,27 @@ select {
   font-size: 15px;
   font-weight: 600;
 }
+
 .tick {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(46, 224, 127, 0.18);
-  color: var(--lime);
+  background: rgba(11, 138, 74, 0.18);
+  color: var(--green);
   display: grid;
   place-items: center;
   font-size: 12px;
   font-weight: 800;
 }
 
-/* ---------- form card ---------- */
+/* =====================================================
+   AUTHENTICATION FORM CARD
+===================================================== */
+
 .card {
   align-self: center;
   background: var(--card);
-  border: 1px solid #edf0f9;
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 32px;
   box-shadow: var(--shadow);
@@ -247,6 +314,7 @@ select {
   padding: 4px;
   margin-bottom: 28px;
 }
+
 .tab {
   text-align: center;
   padding: 11px 6px;
@@ -256,13 +324,15 @@ select {
   border-radius: 11px;
   transition: all 0.15s;
 }
+
 .tab:hover {
   color: var(--text);
 }
+
 .tab-active,
 .tab-active:hover {
   background: var(--navy);
-  color: #fff;
+  color: #FFFFFF;
   box-shadow: 0 4px 12px rgba(10, 23, 54, 0.25);
 }
 
@@ -271,6 +341,7 @@ select {
   font-weight: 800;
   color: var(--text);
 }
+
 .muted {
   color: var(--muted);
   font-size: 15px;
@@ -278,20 +349,26 @@ select {
   margin: 8px 0 24px;
 }
 
+/* =====================================================
+   FORM FIELDS
+===================================================== */
+
 .field {
   margin-bottom: 18px;
 }
+
 .field label {
   display: block;
   font-size: 13px;
   font-weight: 700;
   margin-bottom: 8px;
 }
+
 input[type="text"],
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  background: #f7f9fe;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   color: var(--text);
@@ -301,21 +378,25 @@ input[type="password"] {
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
+
 input::placeholder {
-  color: #9aa6c0;
+  color: var(--placeholder);
 }
+
 input:focus {
   border-color: var(--green);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(11, 138, 74, 0.2);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(11, 138, 74, 0.15);
 }
 
 .input-wrap {
   position: relative;
 }
+
 .input-wrap input {
   padding-right: 64px;
 }
+
 .toggle {
   position: absolute;
   right: 8px;
@@ -330,8 +411,9 @@ input:focus {
   cursor: pointer;
   padding: 6px 8px;
 }
+
 .toggle:hover {
-  color: var(--green-dark);
+  color: var(--green);
 }
 
 .row {
@@ -341,6 +423,7 @@ input:focus {
   margin-bottom: 20px;
   font-size: 13.5px;
 }
+
 .check {
   display: inline-flex;
   align-items: center;
@@ -348,6 +431,7 @@ input:focus {
   color: var(--muted);
   cursor: pointer;
 }
+
 .check input {
   accent-color: var(--green);
   width: 16px;
@@ -355,16 +439,17 @@ input:focus {
 }
 
 .link {
-  color: var(--green-dark);
+  color: var(--green);
   font-weight: 700;
 }
+
 .link:hover {
   text-decoration: underline;
 }
 
 .error {
-  background: #fdecec;
-  border: 1px solid #f5c2c2;
+  background: #FDECEC;
+  border: 1px solid #F5C2C2;
   color: var(--danger);
   padding: 11px 14px;
   border-radius: 10px;
@@ -372,9 +457,14 @@ input:focus {
   margin-bottom: 16px;
 }
 
-/* ---------- buttons ---------- */
+/* =====================================================
+   SHARED BUTTONS
+===================================================== */
+
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 0;
   cursor: pointer;
   font: inherit;
@@ -385,24 +475,34 @@ input:focus {
   text-align: center;
   transition: background 0.15s, transform 0.05s;
 }
+
 .btn-green {
   background: var(--green);
-  color: #fff;
-  box-shadow: 0 6px 14px rgba(11, 138, 74, 0.28);
+  color: #FFFFFF;
+  box-shadow: 0 6px 14px rgba(11, 138, 74, 0.22);
 }
+
 .btn-green:hover {
   background: var(--green-dark);
+  color: #FFFFFF;
 }
+
 .btn:active {
   transform: translateY(1px);
 }
+
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
 .btn-block {
   width: 100%;
 }
+
+/* =====================================================
+   AUTH FOOTER TEXT
+===================================================== */
 
 .signup {
   text-align: center;
@@ -410,14 +510,18 @@ input:focus {
   font-size: 14px;
   margin: 22px 0 0;
 }
+
 .secure {
   text-align: center;
-  color: #8793ad;
+  color: #8793AD;
   font-size: 12.5px;
   margin: 18px 0 0;
 }
 
-/* ---------- placeholder dashboards (host / admin) ---------- */
+/* =====================================================
+   PLACEHOLDER PAGES
+===================================================== */
+
 .center-page {
   min-height: 100vh;
   display: flex;
@@ -428,25 +532,32 @@ input:focus {
   text-align: center;
   padding: 24px;
 }
+
 .center-page .h1 {
   font-size: 36px;
   margin-top: 24px;
   color: var(--text);
 }
 
-/* ---------- responsive ---------- */
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
 @media (max-width: 900px) {
   .split {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 24px 16px;
   }
+
   .login-brand {
     padding: 32px 24px;
   }
+
   .card {
     padding: 24px;
   }
+
   .topbar {
     padding: 14px 18px;
   }
