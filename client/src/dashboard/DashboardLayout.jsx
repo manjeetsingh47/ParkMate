@@ -12,7 +12,6 @@ import {
   Outlet,
   Navigate,
   useNavigate,
-  useLocation,
 } from "react-router-dom";
 
 import Icon from "./Icon.jsx";
@@ -20,10 +19,8 @@ import { ParkLogo, SideArt } from "./Brand.jsx";
 import { USER } from "./data.js";
 import "./dashboard.css";
 
-// Shared location context
 const DashboardLocationContext = createContext(null);
 
-// Access shared location from any customer dashboard page
 export function useDashboardLocation() {
   const context = useContext(DashboardLocationContext);
 
@@ -38,9 +35,7 @@ export function useDashboardLocation() {
 
 const NAV = [
   { to: "/customer/dashboard", label: "Home", icon: "home" },
-  { to: "/customer/find", label: "Find Parking", icon: "search" },
   { to: "/customer/bookings", label: "My Bookings", icon: "calendar" },
-  { to: "/customer/payments", label: "Wallet", icon: "wallet" },
   { to: "/customer/profile", label: "Settings", icon: "settings" },
 ];
 
@@ -57,18 +52,11 @@ function isLoggedIn() {
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
-  const [q, setQ] = useState("");
-
-  // Shared selected location
   const [selectedLocation, setSelectedLocation] = useState(null);
-
-  // Location detection states
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState("");
 
-  // Select a manually searched location or GPS location
   const selectLocation = useCallback((place) => {
     if (
       !place ||
@@ -88,7 +76,6 @@ export default function DashboardLayout() {
     setLocationError("");
   }, []);
 
-  // Detect user's current GPS location
   const detectCurrentLocation = useCallback(() => {
     if (!navigator.geolocation) {
       setLocationError(
@@ -115,6 +102,7 @@ export default function DashboardLayout() {
           lng: longitude,
           accuracy,
           source: "gps",
+          searchScope: "radius",
         });
 
         setLocationLoading(false);
@@ -152,7 +140,6 @@ export default function DashboardLayout() {
     setLocationError("");
   }, []);
 
-  // Shared data available to Home and Find Parking
   const locationContextValue = useMemo(
     () => ({
       selectedLocation,
@@ -173,7 +160,6 @@ export default function DashboardLayout() {
     ]
   );
 
-  // Not logged in -> back to login
   if (!isLoggedIn()) {
     return <Navigate to="/login/customer" replace />;
   }
@@ -191,21 +177,7 @@ export default function DashboardLayout() {
     navigate("/login/customer");
   }
 
-  function search(e) {
-    e.preventDefault();
-
-    navigate(
-      "/customer/find" +
-        (q.trim()
-          ? "?q=" + encodeURIComponent(q.trim())
-          : "")
-    );
-  }
-
   const first = USER.name.trim()[0] || "?";
-
-  // Keep Find Parking active while inside booking pages
-  const inBooking = pathname.startsWith("/customer/book/");
 
   return (
     <DashboardLocationContext.Provider value={locationContextValue}>
@@ -221,13 +193,7 @@ export default function DashboardLayout() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  "nav-item" +
-                  (
-                    isActive ||
-                    (inBooking && item.to === "/customer/find")
-                      ? " nav-active"
-                      : ""
-                  )
+                  "nav-item" + (isActive ? " nav-active" : "")
                 }
               >
                 <Icon name={item.icon} size={22} />
@@ -260,22 +226,6 @@ export default function DashboardLayout() {
             <span className="dtop-logo">
               <ParkLogo size={30} />
             </span>
-
-            <form
-              className="dsearch"
-              onSubmit={search}
-              role="search"
-            >
-              <Icon name="search" size={21} />
-
-              <input
-                type="text"
-                aria-label="Search for parking"
-                placeholder="Search parking spots..."
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-              />
-            </form>
 
             <div className="dtop-right">
               <button

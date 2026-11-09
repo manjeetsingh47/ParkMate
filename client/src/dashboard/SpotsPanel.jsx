@@ -70,6 +70,7 @@ const SORTS = {
   rating: "Rating",
 };
 
+
 function getPlaceDetails(feature) {
   const properties = feature.properties || {};
   const coordinates = feature.geometry?.coordinates || [];
@@ -93,6 +94,14 @@ function getPlaceDetails(feature) {
     city ||
     properties.county ||
     "Selected location";
+
+  const placeType = String(
+    properties.type || properties.osm_value || ""
+  ).toLowerCase();
+
+  const isCity =
+    ["city", "town"].includes(placeType) ||
+    Boolean(properties.city || properties.town);
 
   const address = [
     properties.name,
@@ -118,8 +127,11 @@ function getPlaceDetails(feature) {
     lat,
     lng,
     source: "manual",
+    placeType,
+    searchScope: isCity ? "city" : "radius",
   };
 }
+
 
 export default function SpotsPanel({
   spots = SPOTS,

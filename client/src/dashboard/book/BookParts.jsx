@@ -1,31 +1,39 @@
+
 import { useMemo } from "react";
 
 function pad(n) {
   return String(n).padStart(2, "0");
 }
+
 function nextHour() {
   const d = new Date();
   d.setMinutes(0, 0, 0);
   d.setHours(d.getHours() + 1);
   return d;
 }
+
 export function toInput(d) {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
+
 const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 export function fmtDateTime(d) {
   const h = d.getHours();
   return `${pad(d.getDate())} ${MON[d.getMonth()]} ${d.getFullYear()} · ${h % 12 || 12}:${pad(d.getMinutes())} ${h < 12 ? "AM" : "PM"}`;
 }
 
-/* Fresh booking state: lives in the /customer/book/:id layout route while the 3 pages are open. */
+/* Fresh booking state */
 export function freshBooking() {
   return {
-    slots: [], // picked slot ids, e.g. ["P03", "P04"]
-    plates: {}, // car number typed for each picked slot, e.g. { P03: "MH 12 AB 1234" }
+    slots: [],
+    plates: {},
     hours: 2,
     arrival: toInput(nextHour()),
     code: String(Math.floor(100000 + Math.random() * 900000)),
+
+    // New: default payment option
+    paymentMethod: "pay_at_parking",
   };
 }
 
@@ -72,7 +80,8 @@ export function Barcode({ value }) {
     for (const c of value) seed = (seed * 31 + c.charCodeAt(0)) % 100003;
     const out = [];
     let x = 0;
-    let bar = true; // alternate bar / gap
+    let bar = true;
+
     while (x < 236) {
       seed = (seed * 9301 + 49297) % 233280;
       const w = 1 + Math.floor((seed / 233280) * 4);
@@ -80,8 +89,10 @@ export function Barcode({ value }) {
       bar = !bar;
       x += w + 1;
     }
+
     return out;
   }, [value]);
+
   return (
     <svg className="bk-barcode" viewBox="0 0 240 64" role="img" aria-label={"Entry code " + value}>
       {bars.map((b, i) => (
@@ -92,6 +103,7 @@ export function Barcode({ value }) {
 }
 
 const STEP_NAMES = ["Spot details", "Pick a slot", "Ticket"];
+
 export function Steps({ current }) {
   return (
     <ol className="bk-steps" aria-label="Booking steps">
@@ -114,6 +126,7 @@ const FAC = {
   nav: "M4 11l17-7-7 17-2.5-7.5z",
   back: "M15 5l-7 7 7 7",
 };
+
 export function GIcon({ name, size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

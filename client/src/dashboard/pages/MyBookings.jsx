@@ -5,6 +5,8 @@ import { PageHero } from "../Hero.jsx";
 import { SpotArt } from "../Art.jsx";
 import { BOOKINGS, SPOTS, inr } from "../data.js";
 
+const STORAGE_KEY = "parkmate_customer_bookings";
+
 const TABS = [
   { key: "active", label: "Active" },
   { key: "upcoming", label: "Upcoming" },
@@ -18,9 +20,24 @@ const EXTENSION_OPTIONS = [
   { value: "120", label: "2 Hours" },
 ];
 
+function loadBookings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const savedBookings = Array.isArray(saved) ? saved : [];
+    const savedIds = new Set(savedBookings.map((booking) => booking.id));
+
+    return [
+      ...savedBookings,
+      ...BOOKINGS.filter((booking) => !savedIds.has(booking.id)),
+    ];
+  } catch {
+    return BOOKINGS;
+  }
+}
+
 export default function MyBookings() {
   const [tab, setTab] = useState("active");
-  const [bookings, setBookings] = useState(BOOKINGS);
+  const [bookings, setBookings] = useState(loadBookings);
   const [confirmId, setConfirmId] = useState(null);
   const [extendBooking, setExtendBooking] = useState(null);
   const [extensionDuration, setExtensionDuration] = useState("30");
@@ -28,11 +45,27 @@ export default function MyBookings() {
   const list = bookings.filter((b) => b.status === tab);
 
   function cancel(id) {
-    setBookings((all) =>
-      all.map((b) =>
+    setBookings((all) => {
+      const updated = all.map((b) =>
         b.id === id ? { ...b, status: "cancelled" } : b
-      )
-    );
+      );
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        const updatedSaved = Array.isArray(saved)
+          ? saved.map((b) =>
+              b.id === id ? { ...b, status: "cancelled" } : b
+            )
+          : [];
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSaved));
+      } catch (error) {
+        console.error("Could not update saved booking:", error);
+      }
+
+      return updated;
+    });
+
     setConfirmId(null);
   }
 
@@ -80,6 +113,19 @@ export default function MyBookings() {
         '"': "&quot;",
         "'": "&#39;",
       })[char]);
+
+    const paymentMethod =
+      booking.paymentMethod === "pay_at_parking"
+        ? "Pay at Parking"
+        : booking.paymentMethod === "online"
+          ? "Online Payment"
+          : booking.paymentMethod || "Not available";
+
+    const paymentStatus =
+      booking.paymentStatus ||
+      (booking.paymentMethod === "pay_at_parking"
+        ? "Payment Pending"
+        : "Not available");
 
     receiptWindow.document.write(`
       <!DOCTYPE html>
@@ -177,6 +223,14 @@ export default function MyBookings() {
               <span>Booking Status</span>
               <strong>${safe(booking.status)}</strong>
             </div>
+            <div class="row">
+              <span>Payment Method</span>
+              <strong>${safe(paymentMethod)}</strong>
+            </div>
+            <div class="row">
+              <span>Payment Status</span>
+              <strong>${safe(paymentStatus)}</strong>
+            </div>
             <div class="row total">
               <span>Total Amount</span>
               <strong>${safe(inr(booking.amount))}</strong>
@@ -239,6 +293,19 @@ export default function MyBookings() {
           {list.map((b) => {
             const spot = SPOTS.find((s) => s.name === b.spot);
 
+            const paymentMethod =
+              b.paymentMethod === "pay_at_parking"
+                ? "Pay at Parking"
+                : b.paymentMethod === "online"
+                  ? "Online Payment"
+                  : b.paymentMethod || "Not available";
+
+            const paymentStatus =
+              b.paymentStatus ||
+              (b.paymentMethod === "pay_at_parking"
+                ? "Payment Pending"
+                : "Not available");
+
             return (
               <article className="bcard" key={b.id}>
                 <div className="bcard-img">
@@ -275,6 +342,14 @@ export default function MyBookings() {
                     <div>
                       <dt>Amount</dt>
                       <dd>{inr(b.amount)}</dd>
+                    </div>
+                    <div>
+                      <dt>Payment Method</dt>
+                      <dd>{paymentMethod}</dd>
+                    </div>
+                    <div>
+                      <dt>Payment Status</dt>
+                      <dd>{paymentStatus}</dd>
                     </div>
 
                     {(b.status === "active" || b.status === "upcoming") && (
