@@ -182,7 +182,7 @@ export default function Home() {
 
         <div className="stat">
           <span className="stat-ico">
-            <Icon name="wallet" size={20} />
+            <Icon name="receipt" size={20} />
           </span>
           <div>
             <span>Total spent</span>

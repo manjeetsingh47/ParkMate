@@ -1,3 +1,4 @@
+
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./LoginPage.jsx";
@@ -14,7 +15,6 @@ import DashboardLayout from "./dashboard/DashboardLayout.jsx";
 import CustomerHome from "./dashboard/pages/Home.jsx";
 import FindParking from "./dashboard/pages/FindParking.jsx";
 import MyBookings from "./dashboard/pages/MyBookings.jsx";
-import Payments from "./dashboard/pages/Payments.jsx";
 import Profile from "./dashboard/pages/Profile.jsx";
 
 import BookLayout, {
@@ -98,7 +98,6 @@ export default function App() {
         </Route>
 
         <Route path="bookings" element={<MyBookings />} />
-        <Route path="payments" element={<Payments />} />
         <Route path="profile" element={<Profile />} />
       </Route>
 
