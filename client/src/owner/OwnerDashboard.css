@@ -1,7 +1,7 @@
 
 /* =========================================
    PARKMATE OWNER DASHBOARD
-   Navy Blue + Emerald Green Theme
+   Premium Navy Blue + Emerald Green Theme
 ========================================= */
 
 .owner-layout {
@@ -11,6 +11,7 @@
   --owner-text: #24344d;
   --owner-muted: #8794a8;
   --owner-border: #e9eef5;
+
   display: flex;
   min-height: 100vh;
   background: #f3f7fc;
@@ -32,7 +33,9 @@
   cursor: pointer;
 }
 
-/* SIDEBAR */
+/* =========================================
+   SIDEBAR
+========================================= */
 
 .owner-sidebar {
   width: 255px;
@@ -84,15 +87,17 @@
   padding: 0 12px 13px;
 }
 
+/* SIDEBAR NAVIGATION */
+
 .owner-navigation {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
 .owner-nav-item {
   width: 100%;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: #718096;
   border-radius: 10px;
@@ -103,24 +108,35 @@
   font-size: 13px;
   font-weight: 600;
   text-align: left;
-  transition: .2s;
+  transition: all 0.25s ease;
 }
 
 .owner-nav-item:hover {
-  background: #f1f7f5;
-  color: var(--owner-green);
+  background: #edf8f3;
+  color: #087c50;
+  border-color: #d9f0e4;
+  transform: translateX(3px);
 }
 
+/* ACTIVE MENU - DARK GREEN */
+
 .owner-nav-item.selected {
-  background: #e9f7f0;
-  color: #087c50;
+  background: linear-gradient(135deg, #0da66b, #078351);
+  color: #ffffff;
   font-weight: 750;
+  border-color: transparent;
+  box-shadow: 0 5px 13px rgba(11, 150, 96, 0.22);
+}
+
+.owner-nav-item.selected .owner-icon {
+  color: #ffffff;
 }
 
 .owner-icon {
   width: 21px;
   font-size: 19px;
   text-align: center;
+  transition: color 0.2s ease;
 }
 
 .owner-nav-item small {
@@ -130,6 +146,11 @@
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 10px;
+}
+
+.owner-nav-item.selected small {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .owner-sidebar-bottom {
@@ -172,9 +193,17 @@
   color: #df5252;
   font-size: 12px;
   font-weight: 700;
+  transition: 0.2s;
 }
 
-/* MAIN AREA */
+.owner-logout:hover {
+  background: #fff4f4;
+  border-color: #f4cccc;
+}
+
+/* =========================================
+   MAIN AREA
+========================================= */
 
 .owner-main {
   flex: 1;
@@ -306,7 +335,9 @@
   text-align: center;
 }
 
-/* HEADINGS */
+/* =========================================
+   HEADINGS
+========================================= */
 
 .owner-welcome,
 .owner-page-heading {
@@ -341,7 +372,9 @@
   margin: 0;
 }
 
-/* BUTTONS */
+/* =========================================
+   BUTTONS
+========================================= */
 
 .owner-primary {
   border: none;
@@ -376,9 +409,17 @@
   border-radius: 8px;
   font-size: 11px;
   font-weight: 700;
+  transition: 0.2s;
 }
 
-/* STAT CARDS */
+.owner-outline-btn:hover {
+  background: #edf8f3;
+  border-color: #a8ddc1;
+}
+
+/* =========================================
+   STAT CARDS
+========================================= */
 
 .owner-stats {
   display: grid;
@@ -394,6 +435,12 @@
   padding: 20px;
   min-width: 0;
   box-shadow: 0 3px 12px #172b4d05;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.owner-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px #172b4d10;
 }
 
 .owner-stat-top {
@@ -430,7 +477,9 @@
   font-size: 10px;
 }
 
-/* PANELS */
+/* =========================================
+   PANELS
+========================================= */
 
 .owner-content-grid {
   display: grid;
@@ -487,7 +536,9 @@
   margin-right: 5px;
 }
 
-/* OCCUPANCY */
+/* =========================================
+   OCCUPANCY
+========================================= */
 
 .owner-occupancy {
   display: flex;
@@ -561,7 +612,9 @@
 .blue-dot { background: #538bd8; }
 .grey-dot { background: #aab5c5; }
 
-/* QUICK ACTIONS */
+/* =========================================
+   QUICK ACTIONS
+========================================= */
 
 .owner-quick-actions {
   display: grid;
@@ -584,6 +637,7 @@
 .owner-quick-actions button:hover {
   border-color: #9dddc0;
   background: #f0faf5;
+  transform: translateY(-2px);
 }
 
 .owner-quick-actions button > span {
@@ -613,7 +667,9 @@
   margin-top: 5px;
 }
 
-/* TABLES */
+/* =========================================
+   TABLES
+========================================= */
 
 .owner-table-panel {
   margin-top: 20px;
@@ -645,6 +701,14 @@
   padding: 15px 14px;
   font-size: 11px;
   color: #66758b;
+}
+
+.owner-table tbody tr {
+  transition: background 0.2s;
+}
+
+.owner-table tbody tr:hover {
+  background: #f8fbfd;
 }
 
 .owner-table td strong {
@@ -713,6 +777,7 @@
 
 .owner-search:focus {
   border-color: var(--owner-green);
+  box-shadow: 0 0 0 3px #0b966015;
 }
 
 .owner-booking-action {
@@ -734,7 +799,9 @@
   font-size: 12px;
 }
 
-/* LOCATIONS */
+/* =========================================
+   LOCATIONS
+========================================= */
 
 .owner-location-cards {
   display: grid;
@@ -748,6 +815,12 @@
   border: 1px solid var(--owner-border);
   border-radius: 13px;
   box-shadow: 0 3px 12px #172b4d05;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.owner-location-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px #172b4d10;
 }
 
 .owner-location-top {
@@ -820,7 +893,9 @@
   width: 100%;
 }
 
-/* SLOTS */
+/* =========================================
+   SLOTS
+========================================= */
 
 .owner-slot-legend {
   display: flex;
@@ -899,7 +974,9 @@
   outline: none;
 }
 
-/* ANALYTICS */
+/* =========================================
+   ANALYTICS
+========================================= */
 
 .owner-chart {
   height: 260px;
@@ -948,7 +1025,9 @@
   font-size: 10px;
 }
 
-/* REVIEWS */
+/* =========================================
+   REVIEWS
+========================================= */
 
 .owner-review-summary {
   display: flex;
@@ -1008,7 +1087,9 @@
   font-size: 10px;
 }
 
-/* ADD LOCATION MODAL */
+/* =========================================
+   ADD LOCATION MODAL
+========================================= */
 
 .owner-modal-backdrop {
   position: fixed;
@@ -1089,7 +1170,9 @@
   margin-top: 25px;
 }
 
-/* RESPONSIVE TABLETS */
+/* =========================================
+   RESPONSIVE TABLETS
+========================================= */
 
 @media (max-width: 1150px) {
   .owner-sidebar {
@@ -1118,7 +1201,9 @@
   }
 }
 
-/* RESPONSIVE MOBILE */
+/* =========================================
+   RESPONSIVE MOBILE
+========================================= */
 
 @media (max-width: 750px) {
   .owner-layout {
