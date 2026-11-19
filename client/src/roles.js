@@ -1,3 +1,4 @@
+
 // One config per role. Login pages are generated from this.
 export const ROLES = {
   customer: {
@@ -5,7 +6,7 @@ export const ROLES = {
     tab: "User",
     eyebrow: "FOR DRIVERS",
     title: "Welcome",
-    showUserName: true, // login page adds the saved user name: "Welcome, Name",
+    showUserName: true,
     subtitle: "Log in to find, book and pay for parking in seconds.",
     identifierLabel: "Email or mobile number",
     identifierPlaceholder: "you@example.com",
@@ -15,8 +16,13 @@ export const ROLES = {
     signupText: "New to ParkMate?",
     signupLabel: "Create an account",
     redirect: "/customer/dashboard",
-    points: ["Real-time availability", "Clear, upfront pricing", "Instant booking"],
+    points: [
+      "Real-time availability",
+      "Clear, upfront pricing",
+      "Instant booking",
+    ],
   },
+
   host: {
     path: "host",
     tab: "Parking Owner",
@@ -31,8 +37,13 @@ export const ROLES = {
     signupText: "Have an empty space?",
     signupLabel: "List your space",
     redirect: "/host/dashboard",
-    points: ["Free to list", "You choose price and availability", "Automatic payouts"],
+    points: [
+      "Free to list",
+      "You choose price and availability",
+      "Automatic payouts",
+    ],
   },
+
   admin: {
     path: "admin",
     tab: "Admin",
@@ -45,8 +56,36 @@ export const ROLES = {
     button: "Log in as admin",
     showSignup: false,
     redirect: "/admin/dashboard",
-    points: ["Verify listings", "Manage users and bookings", "Review payouts"],
+    points: [
+      "Verify listings",
+      "Manage users and bookings",
+      "Review payouts",
+    ],
+  },
+
+  staff: {
+    path: "staff",
+    tab: "Staff",
+    eyebrow: "PARKING STAFF ACCESS",
+    title: "Welcome, Staff.",
+    subtitle: "Log in to manage your assigned parking gate.",
+    identifierLabel: "Staff ID",
+    identifierPlaceholder: "PM-STF-001",
+    identifierType: "text",
+    button: "Log in as staff",
+    showSignup: false,
+    redirect: "/staff/dashboard",
+    points: [
+      "Manage assigned gate operations",
+      "Verify vehicle entry or exit",
+      "Update parking activity",
+    ],
   },
 };
 
-export const ROLE_LIST = [ROLES.customer, ROLES.host, ROLES.admin];
+export const ROLE_LIST = [
+  ROLES.customer,
+  ROLES.host,
+  ROLES.admin,
+  ROLES.staff,
+];
