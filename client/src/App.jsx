@@ -65,6 +65,12 @@ export default function App() {
         element={<LoginPage role={ROLES.admin} />}
       />
 
+      {/* Staff Login */}
+      <Route
+        path="/login/staff"
+        element={<LoginPage role={ROLES.staff} />}
+      />
+
       {/* Signup Pages */}
       <Route
         path="/signup"
