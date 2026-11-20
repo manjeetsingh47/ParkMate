@@ -1,5 +1,7 @@
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+const STORAGE_KEY = "parkmate_owner_staff";
 
 const initialStaff = [
   {
@@ -31,19 +33,57 @@ const initialStaff = [
   },
 ];
 
+function loadStaff() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (error) {
+    console.error("Could not load staff:", error);
+  }
+  return initialStaff;
+}
+
+function generateStaffId(staff) {
+  const numbers = staff.map((person) => {
+    const match = String(person.id || "").match(/(?:PM-)?STF-(\d+)/);
+    return match ? Number(match[1]) : 0;
+  });
+
+  return `PM-STF-${String(Math.max(0, ...numbers) + 1).padStart(3, "0")}`;
+}
+
+function generatePassword() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let password = "PM@";
+
+  for (let i = 0; i < 8; i++) {
+    password += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  return password;
+}
+
+function saveStaff(staff) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(staff));
+    return true;
+  } catch (error) {
+    console.error("Could not save staff:", error);
+    return false;
+  }
+}
+
 export default function StaffManagement({ locations = [] }) {
-  const [staff, setStaff] = useState(initialStaff);
+  const [staff, setStaff] = useState(loadStaff);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
-
-  const [newStaff, setNewStaff] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    location: locations[0]?.name || "",
-    gate: "Entry",
-  });
+  const [selectedStaffId, setSelectedStaffId] = useState(null);
+  const [createdStaff, setCreatedStaff] = useState(null);
+  const [notice, setNotice] = useState("");
 
   const locationNames = locations.length
     ? locations.map((location) => location.name)
@@ -52,6 +92,18 @@ export default function StaffManagement({ locations = [] }) {
         "Mall Road Parking",
         "Business Hub Parking",
       ];
+
+  const [newStaff, setNewStaff] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    location: "",
+    gate: "Entry",
+  });
+
+  useEffect(() => {
+    saveStaff(staff);
+  }, [staff]);
 
   const filteredStaff = useMemo(() => {
     const query = search.toLowerCase().trim();
@@ -69,6 +121,15 @@ export default function StaffManagement({ locations = [] }) {
 
   const inactiveCount = staff.length - activeCount;
 
+  const selectedStaff = staff.find(
+    (person) => person.id === selectedStaffId
+  );
+
+  function closeAddStaffPopup() {
+    setShowForm(false);
+    setCreatedStaff(null);
+  }
+
   function handleAddStaff(e) {
     e.preventDefault();
 
@@ -78,54 +139,176 @@ export default function StaffManagement({ locations = [] }) {
       !newStaff.phone.trim() ||
       !newStaff.location
     ) {
+      setNotice("Please fill all staff details.");
       return;
     }
 
     const person = {
       ...newStaff,
-      id: `STF-${String(Date.now()).slice(-6)}`,
+      name: newStaff.name.trim(),
+      email: newStaff.email.trim(),
+      phone: newStaff.phone.trim(),
+      id: generateStaffId(staff),
+      password: generatePassword(),
       status: "Active",
     };
 
-    setStaff((previous) => [...previous, person]);
+    const updatedStaff = [...staff, person];
+
+    setStaff(updatedStaff);
+    saveStaff(updatedStaff);
+
+    // Keep the same Add Staff popup open and show credentials inside it.
+    setCreatedStaff(person);
+    setNotice("");
 
     setNewStaff({
       name: "",
       email: "",
       phone: "",
-      location: locationNames[0] || "",
+      location: "",
       gate: "Entry",
     });
+  }
 
-    setShowForm(false);
+  function handleViewCredentials(person) {
+    let updatedPerson = person;
+
+    if (!person.password) {
+      updatedPerson = {
+        ...person,
+        password: generatePassword(),
+      };
+
+      const updatedStaff = staff.map((item) =>
+        item.id === person.id ? updatedPerson : item
+      );
+
+      setStaff(updatedStaff);
+      saveStaff(updatedStaff);
+    }
+
+    setSelectedStaffId(updatedPerson.id);
+    setNotice("");
+  }
+
+  function handleResetPassword(person) {
+    const updatedPerson = {
+      ...person,
+      password: generatePassword(),
+    };
+
+    const updatedStaff = staff.map((item) =>
+      item.id === person.id ? updatedPerson : item
+    );
+
+    setStaff(updatedStaff);
+    saveStaff(updatedStaff);
+
+    if (createdStaff?.id === person.id) {
+      setCreatedStaff(updatedPerson);
+    }
+
+    setSelectedStaffId(updatedPerson.id);
+    setNotice("Password reset successfully. Save the new password.");
   }
 
   function toggleStatus(id) {
-    setStaff((previous) =>
-      previous.map((person) =>
-        person.id === id
-          ? {
-              ...person,
-              status:
-                person.status === "Active" ? "Inactive" : "Active",
-            }
-          : person
-      )
+    const updatedStaff = staff.map((person) =>
+      person.id === id
+        ? {
+            ...person,
+            status:
+              person.status === "Active" ? "Inactive" : "Active",
+          }
+        : person
     );
+
+    setStaff(updatedStaff);
+    saveStaff(updatedStaff);
   }
 
   function handleDeleteStaff() {
     if (!deleteTarget) return;
 
-    setStaff((previous) =>
-      previous.filter((person) => person.id !== deleteTarget.id)
+    const updatedStaff = staff.filter(
+      (person) => person.id !== deleteTarget.id
     );
 
+    setStaff(updatedStaff);
+    saveStaff(updatedStaff);
+
+    if (selectedStaffId === deleteTarget.id) {
+      setSelectedStaffId(null);
+    }
+
+    if (createdStaff?.id === deleteTarget.id) {
+      setCreatedStaff(null);
+    }
+
     setDeleteTarget(null);
+    setNotice("Staff member deleted.");
+  }
+
+  async function copyCredentials(person) {
+    const text =
+      `Staff Name: ${person.name}\n` +
+      `Staff ID: ${person.id}\n` +
+      `Password: ${person.password}\n` +
+      `Location: ${person.location}\n` +
+      `Gate: ${person.gate}\n` +
+      `Login Page: /login/staff`;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setNotice("Login details copied successfully.");
+    } catch (error) {
+      setNotice("Copy failed. Please copy the details manually.");
+    }
   }
 
   return (
     <div className="staff-management">
+      <style>{`
+        .staff-credentials-modal {
+          width: min(680px, calc(100vw - 32px));
+          max-height: calc(100vh - 40px);
+          overflow-y: auto;
+        }
+
+        .staff-credentials-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 14px;
+          margin: 22px 0;
+        }
+
+        .staff-credentials-grid > div {
+          min-width: 0;
+          padding: 14px;
+          border: 1px solid #dce9e0;
+          border-radius: 9px;
+          background: #f5fbf7;
+        }
+
+        .staff-credentials-grid small {
+          display: block;
+          margin-bottom: 7px;
+          color: #64748b;
+        }
+
+        .staff-credentials-grid strong {
+          display: block;
+          color: #173b29;
+          overflow-wrap: anywhere;
+        }
+
+        .staff-success-heading {
+          color: #176b3a;
+          margin-bottom: 6px;
+        }
+      `}</style>
+
       <div className="owner-page-heading">
         <div>
           <h1>Staff Management</h1>
@@ -136,14 +319,106 @@ export default function StaffManagement({ locations = [] }) {
         </div>
 
         <button
+          type="button"
           className="owner-primary"
-          onClick={() => setShowForm(true)}
+          onClick={() => {
+            setNotice("");
+            setCreatedStaff(null);
+            setShowForm(true);
+          }}
         >
           + Add Staff
         </button>
       </div>
 
-      {/* Staff Statistics */}
+      {notice && (
+        <div
+          style={{
+            padding: "12px 15px",
+            marginBottom: "16px",
+            borderRadius: "8px",
+            background: "#eaf7ef",
+            color: "#176b3a",
+            border: "1px solid #c9e8d3",
+          }}
+        >
+          {notice}
+        </div>
+      )}
+
+      {/* Existing staff credentials popup */}
+      {selectedStaff && (
+        <div
+          className="owner-modal-backdrop"
+          onClick={() => setSelectedStaffId(null)}
+        >
+          <section
+            className="owner-modal staff-credentials-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="owner-modal-heading">
+              <div>
+                <h2>Staff Login Details</h2>
+                <p>Save these credentials and share them with the staff member.</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedStaffId(null)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="staff-credentials-grid">
+              <div>
+                <small>Staff Name</small>
+                <strong>{selectedStaff.name}</strong>
+              </div>
+              <div>
+                <small>Staff ID</small>
+                <strong>{selectedStaff.id}</strong>
+              </div>
+              <div>
+                <small>Temporary Password</small>
+                <strong>{selectedStaff.password || "Not available"}</strong>
+              </div>
+              <div>
+                <small>Parking Location</small>
+                <strong>{selectedStaff.location}</strong>
+              </div>
+              <div>
+                <small>Gate Duty</small>
+                <strong>{selectedStaff.gate} Gate</strong>
+              </div>
+              <div>
+                <small>Login Page</small>
+                <strong>/login/staff</strong>
+              </div>
+            </div>
+
+            <div className="owner-modal-actions">
+              <button
+                type="button"
+                className="owner-outline-btn"
+                onClick={() => handleResetPassword(selectedStaff)}
+              >
+                Reset Password
+              </button>
+
+              <button
+                type="button"
+                className="owner-primary"
+                onClick={() => copyCredentials(selectedStaff)}
+              >
+                Copy Login Details
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {/* Staff statistics */}
       <div className="owner-stats">
         <div className="owner-stat-card">
           <div className="owner-stat-top">
@@ -173,7 +448,7 @@ export default function StaffManagement({ locations = [] }) {
         </div>
       </div>
 
-      {/* Staff List */}
+      {/* Staff list */}
       <section className="owner-panel owner-table-panel">
         <div className="owner-panel-heading">
           <div>
@@ -232,11 +507,21 @@ export default function StaffManagement({ locations = [] }) {
                     <div
                       style={{
                         display: "flex",
-                        gap: "8px",
+                        flexWrap: "wrap",
+                        gap: "7px",
                         alignItems: "center",
                       }}
                     >
                       <button
+                        type="button"
+                        className="owner-outline-btn"
+                        onClick={() => handleViewCredentials(person)}
+                      >
+                        View Login Details
+                      </button>
+
+                      <button
+                        type="button"
                         className="owner-outline-btn staff-toggle-btn"
                         onClick={() => toggleStatus(person.id)}
                       >
@@ -268,133 +553,209 @@ export default function StaffManagement({ locations = [] }) {
           </table>
 
           {filteredStaff.length === 0 && (
-            <p className="owner-empty">
-              No staff members found.
-            </p>
+            <p className="owner-empty">No staff members found.</p>
           )}
         </div>
       </section>
 
-      {/* Add Staff Modal */}
+      {/* Add staff form AND credentials in the same popup */}
       {showForm && (
         <div
           className="owner-modal-backdrop"
-          onClick={() => setShowForm(false)}
+          onClick={closeAddStaffPopup}
         >
-          <form
-            className="owner-modal staff-modal"
-            onSubmit={handleAddStaff}
+          <div
+            className="owner-modal staff-modal staff-credentials-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="owner-modal-heading">
-              <div>
-                <h2>Add New Staff</h2>
-                <p>
-                  Enter staff details and assign their parking duty.
-                </p>
-              </div>
+            {createdStaff ? (
+              <>
+                <div className="owner-modal-heading">
+                  <div>
+                    <h2 className="staff-success-heading">
+                      Staff Account Created!
+                    </h2>
+                    <p>
+                      Save these login details and share them with your staff member.
+                    </p>
+                  </div>
 
-              <button
-                type="button"
-                onClick={() => setShowForm(false)}
-              >
-                ✕
-              </button>
-            </div>
+                  <button
+                    type="button"
+                    onClick={closeAddStaffPopup}
+                  >
+                    ✕
+                  </button>
+                </div>
 
-            <label>Full Name</label>
-            <input
-              required
-              placeholder="Enter staff name"
-              value={newStaff.name}
-              onChange={(e) =>
-                setNewStaff({
-                  ...newStaff,
-                  name: e.target.value,
-                })
-              }
-            />
+                <div className="staff-credentials-grid">
+                  <div>
+                    <small>Staff Name</small>
+                    <strong>{createdStaff.name}</strong>
+                  </div>
 
-            <label>Email Address</label>
-            <input
-              required
-              type="email"
-              placeholder="staff@example.com"
-              value={newStaff.email}
-              onChange={(e) =>
-                setNewStaff({
-                  ...newStaff,
-                  email: e.target.value,
-                })
-              }
-            />
+                  <div>
+                    <small>Staff ID</small>
+                    <strong>{createdStaff.id}</strong>
+                  </div>
 
-            <label>Phone Number</label>
-            <input
-              required
-              type="tel"
-              pattern="[0-9]{10}"
-              maxLength={10}
-              placeholder="10-digit mobile number"
-              value={newStaff.phone}
-              onChange={(e) =>
-                setNewStaff({
-                  ...newStaff,
-                  phone: e.target.value.replace(/\D/g, ""),
-                })
-              }
-            />
+                  <div>
+                    <small>Temporary Password</small>
+                    <strong>{createdStaff.password}</strong>
+                  </div>
 
-            <label>Parking Location</label>
-            <select
-              required
-              value={newStaff.location}
-              onChange={(e) =>
-                setNewStaff({
-                  ...newStaff,
-                  location: e.target.value,
-                })
-              }
-            >
-              {locationNames.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
+                  <div>
+                    <small>Parking Location</small>
+                    <strong>{createdStaff.location}</strong>
+                  </div>
 
-            <label>Gate Responsibility</label>
-            <select
-              value={newStaff.gate}
-              onChange={(e) =>
-                setNewStaff({
-                  ...newStaff,
-                  gate: e.target.value,
-                })
-              }
-            >
-              <option value="Entry">Entry Gate</option>
-              <option value="Exit">Exit Gate</option>
-            </select>
+                  <div>
+                    <small>Gate Duty</small>
+                    <strong>{createdStaff.gate} Gate</strong>
+                  </div>
 
-            <div className="owner-modal-actions">
-              <button
-                type="button"
-                className="owner-outline-btn"
-                onClick={() => setShowForm(false)}
-              >
-                Cancel
-              </button>
+                  <div>
+                    <small>Login Page</small>
+                    <strong>/login/staff</strong>
+                  </div>
+                </div>
 
-              <button type="submit" className="owner-primary">
-                Save Staff
-              </button>
-            </div>
-          </form>
+                <div className="owner-modal-actions">
+                  <button
+                    type="button"
+                    className="owner-outline-btn"
+                    onClick={() => copyCredentials(createdStaff)}
+                  >
+                    Copy Login Details
+                  </button>
+
+                  <button
+                    type="button"
+                    className="owner-primary"
+                    onClick={closeAddStaffPopup}
+                  >
+                    Done
+                  </button>
+                </div>
+              </>
+            ) : (
+              <form onSubmit={handleAddStaff}>
+                <div className="owner-modal-heading">
+                  <div>
+                    <h2>Add New Staff</h2>
+                    <p>
+                      Enter staff details and assign their parking duty.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={closeAddStaffPopup}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                <label>Full Name</label>
+                <input
+                  required
+                  placeholder="Enter staff name"
+                  value={newStaff.name}
+                  onChange={(e) =>
+                    setNewStaff({
+                      ...newStaff,
+                      name: e.target.value,
+                    })
+                  }
+                />
+
+                <label>Email Address</label>
+                <input
+                  required
+                  type="email"
+                  placeholder="staff@example.com"
+                  value={newStaff.email}
+                  onChange={(e) =>
+                    setNewStaff({
+                      ...newStaff,
+                      email: e.target.value,
+                    })
+                  }
+                />
+
+                <label>Phone Number</label>
+                <input
+                  required
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  placeholder="10-digit mobile number"
+                  value={newStaff.phone}
+                  onChange={(e) =>
+                    setNewStaff({
+                      ...newStaff,
+                      phone: e.target.value.replace(/\D/g, ""),
+                    })
+                  }
+                />
+
+                <label>Parking Location</label>
+                <select
+                  required
+                  value={newStaff.location}
+                  onChange={(e) =>
+                    setNewStaff({
+                      ...newStaff,
+                      location: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select parking location</option>
+
+                  {locationNames.map((name) => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+
+                <label>Gate Responsibility</label>
+                <select
+                  value={newStaff.gate}
+                  onChange={(e) =>
+                    setNewStaff({
+                      ...newStaff,
+                      gate: e.target.value,
+                    })
+                  }
+                >
+                  <option value="Entry">Entry Gate</option>
+                  <option value="Exit">Exit Gate</option>
+                </select>
+
+                <div className="owner-modal-actions">
+                  <button
+                    type="button"
+                    className="owner-outline-btn"
+                    onClick={closeAddStaffPopup}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="owner-primary"
+                  >
+                    Create Staff Account
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete confirmation */}
       {deleteTarget && (
         <div
           className="owner-modal-backdrop"

@@ -29,6 +29,9 @@ import OwnerDashboard from "./owner/OwnerDashboard.jsx";
 // Admin Dashboard
 import AdminDashboard from "./admin/AdminDashboard.jsx";
 
+// Staff Dashboard
+import StaffDashboard from "./staff/StaffDashboard.jsx";
+
 export default function App() {
   return (
     <Routes>
@@ -65,7 +68,6 @@ export default function App() {
         element={<LoginPage role={ROLES.admin} />}
       />
 
-      {/* Staff Login */}
       <Route
         path="/login/staff"
         element={<LoginPage role={ROLES.staff} />}
@@ -117,6 +119,17 @@ export default function App() {
       <Route
         path="/admin/dashboard"
         element={<AdminDashboard />}
+      />
+
+      {/* Staff Dashboard */}
+      <Route
+        path="/staff"
+        element={<Navigate to="/staff/dashboard" replace />}
+      />
+
+      <Route
+        path="/staff/dashboard"
+        element={<StaffDashboard />}
       />
 
       {/* Unknown Routes */}
