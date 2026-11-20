@@ -1,12 +1,13 @@
+
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo.jsx";
 import { ROLE_LIST } from "./roles.js";
 import { login } from "./api.js";
 
-
 export default function LoginPage({ role }) {
   const navigate = useNavigate();
+
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +15,6 @@ export default function LoginPage({ role }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // name of the user who logged in last on this device (saved below after a successful login)
   const savedName = (() => {
     try {
       return localStorage.getItem("pm_name") || "";
@@ -22,27 +22,57 @@ export default function LoginPage({ role }) {
       return "";
     }
   })();
-  const title = role.showUserName && savedName ? `Welcome, ${savedName}` : role.title;
+
+  const title =
+    role.showUserName && savedName
+      ? `Welcome, ${savedName}`
+      : role.title;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     try {
-      const data = await login({ role: role.path, identifier: identifier.trim(), password });
+      const data = await login({
+        role: role.path,
+        identifier: identifier.trim(),
+        password,
+      });
+
       const store = remember ? localStorage : sessionStorage;
+
+      // Save login session in the selected storage
       store.setItem("pm_token", data.token);
       store.setItem("pm_role", role.path);
+
+      // Save logged-in user identifier
+      store.setItem(
+        "pm_user",
+        data.user?.identifier || identifier.trim()
+      );
+
       if (data.user?.name) {
-        try {
-          localStorage.setItem("pm_name", data.user.name); // kept after log out so the next login says "Welcome, Name"
-        } catch {
-          /* ignore */
-        }
+        localStorage.setItem("pm_name", data.user.name);
       }
-      navigate(role.redirect);
+
+      // Redirect to the correct dashboard
+      const redirectPath =
+        role.redirect ||
+        (role.path === "staff"
+          ? "/staff/dashboard"
+          : role.path === "host"
+            ? "/host/dashboard"
+            : role.path === "admin"
+              ? "/admin/dashboard"
+              : "/customer/dashboard");
+
+      navigate(redirectPath, { replace: true });
+
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(
+        err.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -58,16 +88,18 @@ export default function LoginPage({ role }) {
       </header>
 
       <main className="split">
-        {/* Left: brand panel */}
         <section className="login-brand">
           <span className="pill">{role.eyebrow}</span>
+
           <h1 className="h1">
             Park without <span className="hl">the stress.</span>
           </h1>
+
           <p className="lead">
-            ParkMate helps drivers find, book and pay for a safe spot, and helps owners earn
-            from space they already have.
+            ParkMate helps drivers find, book and pay for a safe spot,
+            and helps owners earn from space they already have.
           </p>
+
           <ul className="checks">
             {role.points.map((p) => (
               <li key={p}>
@@ -77,15 +109,20 @@ export default function LoginPage({ role }) {
           </ul>
         </section>
 
-        {/* Right: form card */}
         <section className="card">
-          <div className="tabs" role="tablist" aria-label="Choose account type">
+          <div
+            className="tabs"
+            role="tablist"
+            aria-label="Choose account type"
+          >
             {ROLE_LIST.map((r) => (
               <NavLink
                 key={r.path}
                 to={`/login/${r.path}`}
                 role="tab"
-                className={({ isActive }) => "tab" + (isActive ? " tab-active" : "")}
+                className={({ isActive }) =>
+                  "tab" + (isActive ? " tab-active" : "")
+                }
               >
                 {r.tab}
               </NavLink>
@@ -97,7 +134,10 @@ export default function LoginPage({ role }) {
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="field">
-              <label htmlFor="identifier">{role.identifierLabel}</label>
+              <label htmlFor="identifier">
+                {role.identifierLabel}
+              </label>
+
               <input
                 id="identifier"
                 type={role.identifierType}
@@ -111,6 +151,7 @@ export default function LoginPage({ role }) {
 
             <div className="field">
               <label htmlFor="password">Password</label>
+
               <div className="input-wrap">
                 <input
                   id="password"
@@ -121,11 +162,16 @@ export default function LoginPage({ role }) {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+
                 <button
                   type="button"
                   className="toggle"
-                  onClick={() => setShowPassword((s) => !s)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() =>
+                    setShowPassword((s) => !s)
+                  }
+                  aria-label={
+                    showPassword ? "Hide password" : "Show password"
+                  }
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -137,11 +183,18 @@ export default function LoginPage({ role }) {
                 <input
                   type="checkbox"
                   checked={remember}
-                  onChange={(e) => setRemember(e.target.checked)}
+                  onChange={(e) =>
+                    setRemember(e.target.checked)
+                  }
                 />
                 <span>Keep me logged in</span>
               </label>
-              <a href="#" className="link" onClick={(e) => e.preventDefault()}>
+
+              <a
+                href="#"
+                className="link"
+                onClick={(e) => e.preventDefault()}
+              >
                 Forgot password?
               </a>
             </div>
@@ -152,7 +205,11 @@ export default function LoginPage({ role }) {
               </div>
             )}
 
-            <button type="submit" className="btn btn-green btn-block" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-green btn-block"
+              disabled={loading}
+            >
               {loading ? "Logging in…" : role.button}
             </button>
           </form>
@@ -160,17 +217,24 @@ export default function LoginPage({ role }) {
           {role.showSignup && (
             <p className="signup">
               {role.signupText}{" "}
-              <Link to={`/signup/${role.path}`} className="link">
+              <Link
+                to={`/signup/${role.path}`}
+                className="link"
+              >
                 {role.signupLabel}
               </Link>
             </p>
           )}
 
-          <p className="secure">🔒 Your details are encrypted and secure.</p>
+          <p className="secure">
+            🔒 Your details are encrypted and secure.
+          </p>
         </section>
       </main>
 
-      <footer className="foot">© 2026 ParkMate. All rights reserved.</footer>
+      <footer className="foot">
+        © 2026 ParkMate. All rights reserved.
+      </footer>
     </div>
   );
 }
